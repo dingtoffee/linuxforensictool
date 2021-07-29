@@ -181,6 +181,12 @@ get_logs(){
 
     mkdir $LOC/Dir_logs
     cp -r $MOTHERPATH/var/log $LOC/Dir_logs
+    cp -RH $MOTHERPATH/run/utmp $LOC/Dir_logs/log/run_utmp 
+    mkdir $LOC/Dir_logs/$IRCASE-last
+    last -f $LOC/Dir_logs/log/wtmp > $LOC/Dir_logs/$IRCASE-last/$IRCASE'-wtmp.txt'
+    last -f $LOC/Dir_logs/log/utmp > $LOC/Dir_logs/$IRCASE-last/$IRCASE'-utmp.txt'
+    last -f $LOC/Dir_logs/log/btmp > $LOC/Dir_logs/$IRCASE-last/$IRCASE'-btmp.txt'
+    last -f $LOC/Dir_logs/log/run_utmp > $LOC/Dir_logs/$IRCASE-last/$IRCASE'-run_utmp.txt'
 
 }
 
@@ -203,7 +209,7 @@ get_timeline(){
 ######################   MAIN    ##########################
 
 # die if path not provided
-[ $# -le 1 ] && { echo "Usage: ./linux_triage.sh [imagepath] [OPTIONAL: To enable Timeline function - \"1\" to enable it] ..."; exit 1;}
+[ "$#" -lt 1 -o "$#" -gt 2 ] && { echo "Usage: ./linux_triage.sh [imagepath] [OPTIONAL: To enable Timeline function - \"1\" to enable it \"0\" to disable it ] ..."; exit 1;}
 {
     check_tmpstorage 2>&1
     excludes_paths 2>&1
