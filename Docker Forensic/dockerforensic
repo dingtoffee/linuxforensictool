@@ -9,4 +9,4 @@ dof status $1 1>docker-status.log 2>err.log
 dof list-containers $1 > docker-container.txt 
 egrep '^\/.*$' docker-container.txt | tr -d '/' > docker.txt 
 for word in $(cat docker.txt); do echo "processing $word"; (dof show-container-log --container $word $1 > $word-log.txt) ; done 
-for word in $(cat /home/sansforensics/Desktop/dockerlist); do echo "processing timeline of $word"; (mactime $2..$3< <(sudo dof macrobber-container-layer --container $word $1 & sudo dof macrobber-volumes --container $word $1)) > $word-timeline.txt ;done
+for word in $(cat docker.txt); do echo "processing timeline of $word"; (mactime $2..$3< <(sudo dof macrobber-container-layer --container $word $1 & sudo dof macrobber-volumes --container $word $1)) > $word-timeline.txt ;done
